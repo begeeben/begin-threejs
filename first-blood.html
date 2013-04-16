@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+	<head>
+		<title>First Blood</title>
+	</head>
+	<body>
+		<script src="https://raw.github.com/mrdoob/three.js/master/build/three.js"></script>
+		<script>
+			var scene = new THREE.Scene();
+			// new THREE.PerspectiveCamera(fov, aspect, near, far)
+			var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+			camera.position.set(0, 0, 5);
+
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			// renderer.domElement: A canvas element to draw WebGL output
+			document.body.appendChild(renderer.domElement);
+
+			var geometry = new THREE.CubeGeometry(1,1,1);
+			var material = new THREE.MeshBasicMaterial({color: 0x199509});
+			var mesh = new THREE.Mesh(geometry, material);
+			scene.add(mesh);
+
+			function render() {
+				requestAnimationFrame(render);
+				mesh.rotation.x += 0.01;
+				mesh.rotation.y += 0.01;
+				renderer.render(scene, camera);
+			}
+
+			render();
+		</script>
+	</body>
+</html>
