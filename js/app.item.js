@@ -12,6 +12,8 @@ APP.item = function (item, options) {
     var material = new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } );
     var mesh = new THREE.Mesh( geometry, material);
 
+    mesh.material.ambient = mesh.material.color;
+
     mesh.rotation.x = Math.random() * 2 * Math.PI;
     mesh.rotation.y = Math.random() * 2 * Math.PI;
     mesh.rotation.z = Math.random() * 2 * Math.PI;
@@ -35,6 +37,8 @@ APP.item = function (item, options) {
   this.rotationSpeed = 0.1;
 
   THREE.Object3D.call(this);
+
+  this.add(this.bulletMesh);
 };
 
 APP.item.prototype = Object.create(THREE.Object3D.prototype);

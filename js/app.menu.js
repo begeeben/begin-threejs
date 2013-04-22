@@ -12,7 +12,10 @@ APP.menu = function(container, items, options) {
   this.renderer = null;
   this.scene = null;
   this.camera = null;
+
   this.objects = [];
+  this.items = [];
+
   this.clock = null;
   this.stats = null;
 
@@ -86,21 +89,22 @@ APP.menu.prototype = {
 
   /** Initialize menu items. */
   initItems: function(items, options) {
-    var geometry = new THREE.CubeGeometry( options.cubeLength, options.cubeLength, options.cubeLength );
+    // var geometry = new THREE.CubeGeometry( options.cubeLength, options.cubeLength, options.cubeLength );
 
     for (var i=0; i<items.length; i++) {
       // Add cube.
-      var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
+      // var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
+      var object = new APP.item(items[i], options);
 
-      object.material.ambient = object.material.color;
+      // object.material.ambient = object.material.color;
 
       object.position.x = options.cubeLength + options.itemMargin;
       object.position.y = -(options.itemMargin + options.cubeLength)-(options.itemMargin * 2 + options.cubeLength) * i ;
       object.position.z = 0;
 
-      object.rotation.x = Math.random() * 2 * Math.PI;
-      object.rotation.y = Math.random() * 2 * Math.PI;
-      object.rotation.z = Math.random() * 2 * Math.PI;
+      // object.rotation.x = Math.random() * 2 * Math.PI;
+      // object.rotation.y = Math.random() * 2 * Math.PI;
+      // object.rotation.z = Math.random() * 2 * Math.PI;
 
       // object.scale.x = Math.random() * 2 + 1;
       // object.scale.y = Math.random() * 2 + 1;
@@ -112,6 +116,7 @@ APP.menu.prototype = {
       this.scene.add( object );
 
       this.objects.push( object );
+      this.items.push( object );
 
       // Add text.
       this.createText(items, options, i);
@@ -373,9 +378,10 @@ APP.menu.prototype = {
   update: function(delta) {
     // Rotate cubes.
     for (var i=0; i<this.objects.length; i++) {
-      this.objects[i].rotation.x += delta;
-      this.objects[i].rotation.y += 0.7 * delta;
-      this.objects[i].rotation.z += 0.2 * delta;
+      // this.objects[i].rotation.x += delta;
+      // this.objects[i].rotation.y += 0.7 * delta;
+      // this.objects[i].rotation.z += 0.2 * delta;
+      this.items[i].update(delta);
     }
   },
 
