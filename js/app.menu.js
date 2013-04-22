@@ -89,22 +89,14 @@ APP.menu.prototype = {
 
   /** Initialize menu items. */
   initItems: function(items, options) {
-    // var geometry = new THREE.CubeGeometry( options.cubeLength, options.cubeLength, options.cubeLength );
 
     for (var i=0; i<items.length; i++) {
-      // Add cube.
-      // var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
+      // Add an item.
       var object = new APP.item(items[i], options);
-
-      // object.material.ambient = object.material.color;
 
       object.position.x = options.cubeLength + options.itemMargin;
       object.position.y = -(options.itemMargin + options.cubeLength)-(options.itemMargin * 2 + options.cubeLength) * i ;
       object.position.z = 0;
-
-      // object.rotation.x = Math.random() * 2 * Math.PI;
-      // object.rotation.y = Math.random() * 2 * Math.PI;
-      // object.rotation.z = Math.random() * 2 * Math.PI;
 
       // object.scale.x = Math.random() * 2 + 1;
       // object.scale.y = Math.random() * 2 + 1;
@@ -157,49 +149,6 @@ APP.menu.prototype = {
     textGeometry.computeBoundingBox();
     textGeometry.computeVertexNormals();
 
-    // "fix" side normals by removing z-component of normals for side faces
-    // (this doesn't work well for beveled geometry as then we lose nice curvature around z-axis)
-
-    // if ( ! bevelEnabled ) {
-    if (false) {
-
-      var triangleAreaHeuristics = 0.1 * ( height * size );
-
-      for ( var i = 0; i < textGeometry.faces.length; i ++ ) {
-
-        var face = textGeometry.faces[ i ];
-
-        if ( face.materialIndex == 1 ) {
-
-          for ( var j = 0; j < face.vertexNormals.length; j ++ ) {
-
-            face.vertexNormals[ j ].z = 0;
-            face.vertexNormals[ j ].normalize();
-
-          }
-
-          var va = textGeometry.vertices[ face.a ];
-          var vb = textGeometry.vertices[ face.b ];
-          var vc = textGeometry.vertices[ face.c ];
-
-          var s = THREE.GeometryUtils.triangleArea( va, vb, vc );
-
-          if ( s > triangleAreaHeuristics ) {
-
-            for ( var j = 0; j < face.vertexNormals.length; j ++ ) {
-
-              face.vertexNormals[ j ].copy( face.normal );
-
-            }
-
-          }
-
-        }
-
-      }
-
-    }
-
     var material = new THREE.MeshFaceMaterial( [ 
       new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } ), // front
       new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.SmoothShading } ) // side
@@ -220,21 +169,6 @@ APP.menu.prototype = {
     textMesh1.rotation.y = Math.PI * 2;
 
     this.scene.add( textMesh1 );
-
-    // if ( mirror ) {
-      if(false) {
-      var textMesh2 = new THREE.Mesh( textGeometry, material );
-
-      textMesh2.position.x = centerOffset;
-      textMesh2.position.y = -30;
-      textMesh2.position.z = 20;
-
-      textMesh2.rotation.x = Math.PI;
-      textMesh2.rotation.y = Math.PI * 2;
-
-      this.scene.add( textMesh2 );
-
-    }
   },
 
   onDocumentMouseMove: function( event ) {
@@ -376,11 +310,8 @@ APP.menu.prototype = {
    *  Update animations according to time difference.
    */
   update: function(delta) {
-    // Rotate cubes.
+    // Update item animations.
     for (var i=0; i<this.objects.length; i++) {
-      // this.objects[i].rotation.x += delta;
-      // this.objects[i].rotation.y += 0.7 * delta;
-      // this.objects[i].rotation.z += 0.2 * delta;
       this.items[i].update(delta);
     }
   },
