@@ -1,7 +1,7 @@
 /**
  * @author: Yi-Fan Liao / http://begeeben.wordpress.com
  */
-APP.menu = function(container, items, options) {
+THREE.menu = function(container, items, options) {
 
   this.options = options || {
     cubeLength: 50,
@@ -26,9 +26,9 @@ APP.menu = function(container, items, options) {
   this.animate();
 };
 
-APP.menu.prototype = {
+THREE.menu.prototype = {
 
-  constructor: APP.menu,
+  constructor: THREE.menu,
 
   init: function(container, items, options) {
 
@@ -92,7 +92,7 @@ APP.menu.prototype = {
 
     for (var i=0; i<items.length; i++) {
       // Add an item.
-      var object = new APP.item({
+      var object = new THREE.item({
         id: i,
         text: items[i],
         value: items[i]
@@ -114,9 +114,6 @@ APP.menu.prototype = {
       this.objects.push( object );
       this.items.push( object );
 
-      // Add text.
-      // this.createText(items, options, i);
-
       // Add light.
       var pointLight = new THREE.PointLight(0x999999);
       pointLight.position.x = -60;
@@ -126,53 +123,6 @@ APP.menu.prototype = {
       this.scene.add(pointLight);
     }
 
-  },
-
-  createText: function(items, options, index) {
-    var text = items[index];
-
-    var textGeometry = new THREE.TextGeometry( text, {
-
-      size: 40,
-      height: 20,
-      curveSegments: 4,
-
-      font: 'optimer',
-      weight: 'normal',
-      style: 'normal',
-
-      bevelThickness: 2,
-      bevelSize: 1.5,
-      bevelEnabled: true,
-
-      material: 0,
-      extrudeMaterial: 1
-
-    });
-
-    textGeometry.computeBoundingBox();
-    textGeometry.computeVertexNormals();
-
-    var material = new THREE.MeshFaceMaterial( [ 
-      new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } ), // front
-      new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.SmoothShading } ) // side
-    ] );
-
-    var centerOffset = -0.5 * ( textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x );
-
-    var textMesh1 = new THREE.Mesh( textGeometry, material );
-
-    // textMesh1.position.x = centerOffset;
-    textMesh1.position.x = ( options.cubeLength + options.itemMargin )* 2;
-    textMesh1.position.y = -(options.itemMargin + options.cubeLength)-(options.itemMargin * 2 + options.cubeLength) * index;
-    // textMesh1.position.x = 50;
-    // textMesh1.position.y = -100 * i;
-    textMesh1.position.z = 0;
-
-    textMesh1.rotation.x = 0;
-    textMesh1.rotation.y = Math.PI * 2;
-
-    this.scene.add( textMesh1 );
   },
 
   onDocumentMouseMove: function( event ) {

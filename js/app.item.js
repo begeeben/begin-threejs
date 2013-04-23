@@ -1,7 +1,7 @@
 /**
  * @author: Yi-Fan Liao / http://begeeben.wordpress.com
  */
-APP.item = function (item, options) {
+THREE.item = function (item, options) {
   options = options || {
     cubeLength: 50,
     itemMargin: 20
@@ -87,10 +87,10 @@ APP.item = function (item, options) {
   this.add(this.textMesh);
 };
 
-APP.item.prototype = Object.create(THREE.Object3D.prototype);
+THREE.item.prototype = Object.create(THREE.Object3D.prototype);
 
 /* Update item animation according to delta time passed. */
-APP.item.prototype.update = function(delta) {
+THREE.item.prototype.update = function(delta) {
   var speed = this.rotationSpeed;
 
   if (this.isHover) {
@@ -104,7 +104,7 @@ APP.item.prototype.update = function(delta) {
   this.isHover = false;
 };
 
-APP.item.prototype.hover = function() {
+THREE.item.prototype.hover = function() {
   this.isHover = true;
   this.rotationSpeed *= 10;
 };
