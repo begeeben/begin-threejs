@@ -5,7 +5,9 @@ THREE.menu = function(container, items, options) {
 
   this.options = options || {
     cubeLength: 50,
-    itemMargin: 20
+    itemMargin: 20,
+    textSize: 50,
+    textHeight: 20
   };
 
   this.container = container;
@@ -96,7 +98,7 @@ THREE.menu.prototype = {
         id: i,
         text: items[i],
         value: items[i]
-      }, options);
+      });
 
       object.position.x = options.cubeLength + options.itemMargin;
       object.position.y = -(options.itemMargin + options.cubeLength)-(options.itemMargin * 2 + options.cubeLength) * i ;

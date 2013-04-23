@@ -3,13 +3,17 @@
  */
 THREE.item = function (item, options) {
   options = options || {
+    bulletColor: Math.random() * 0xffffff,
+    textColor: Math.random() * 0xffffff,
     cubeLength: 50,
-    itemMargin: 20
+    itemMargin: 20,
+    textSize: 50,
+    textHeight: 20
   };
 
   function initBullet(options) {
     var geometry = new THREE.CubeGeometry( options.cubeLength, options.cubeLength, options.cubeLength );
-    var material = new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } );
+    var material = new THREE.MeshLambertMaterial( { color: options.bulletColor } );
     var mesh = new THREE.Mesh( geometry, material);
 
     mesh.material.ambient = mesh.material.color;
@@ -26,8 +30,8 @@ THREE.item = function (item, options) {
 
     var textGeometry = new THREE.TextGeometry( text, {
 
-      size: 40,
-      height: 20,
+      size: options.textSize,
+      height: options.textHeight,
       curveSegments: 4,
 
       font: 'optimer',
@@ -47,8 +51,8 @@ THREE.item = function (item, options) {
     textGeometry.computeVertexNormals();
 
     var material = new THREE.MeshFaceMaterial( [ 
-      new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } ), // front
-      new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.SmoothShading } ) // side
+      new THREE.MeshPhongMaterial( { color: options.textColor, shading: THREE.FlatShading } ), // front
+      new THREE.MeshPhongMaterial( { color: options.textColor, shading: THREE.SmoothShading } ) // side
     ] );
 
     var centerOffset = -0.5 * ( textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x );
@@ -57,14 +61,16 @@ THREE.item = function (item, options) {
 
     // textMesh1.position.x = centerOffset;
     mesh.position.x = options.cubeLength + options.itemMargin * 2;
-    mesh.position.y = - options.itemMargin/2;
+    mesh.position.y = - options.itemMargin;
     // mesh.position.y = -(options.itemMargin + options.cubeLength)-(options.itemMargin * 2 + options.cubeLength);
     // textMesh1.position.x = 50;
     // textMesh1.position.y = -100 * i;
-    mesh.position.z = 0;
+    // mesh.position.z = 0;
 
-    mesh.rotation.x = 0;
-    mesh.rotation.y = Math.PI * 2;
+    // mesh.rotation.x = 0;
+    // mesh.rotation.y = Math.PI * 2;
+    mesh.rotation.x = -0.4;
+    // mesh.rotation.y = 0.2;
 
     return mesh;
 
