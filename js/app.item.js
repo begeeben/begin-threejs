@@ -21,13 +21,58 @@ APP.item = function (item, options) {
     return mesh;
   }
 
-  function initText() {
+  function initText(text, options) {
+    // var text = items[index];
+
+    var textGeometry = new THREE.TextGeometry( text, {
+
+      size: 40,
+      height: 20,
+      curveSegments: 4,
+
+      font: 'optimer',
+      weight: 'normal',
+      style: 'normal',
+
+      bevelThickness: 2,
+      bevelSize: 1.5,
+      bevelEnabled: true,
+
+      material: 0,
+      extrudeMaterial: 1
+
+    });
+
+    textGeometry.computeBoundingBox();
+    textGeometry.computeVertexNormals();
+
+    var material = new THREE.MeshFaceMaterial( [ 
+      new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } ), // front
+      new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.SmoothShading } ) // side
+    ] );
+
+    var centerOffset = -0.5 * ( textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x );
+
+    var mesh = new THREE.Mesh( textGeometry, material );
+
+    // textMesh1.position.x = centerOffset;
+    mesh.position.x = options.cubeLength + options.itemMargin * 2;
+    mesh.position.y = - options.itemMargin/2;
+    // mesh.position.y = -(options.itemMargin + options.cubeLength)-(options.itemMargin * 2 + options.cubeLength);
+    // textMesh1.position.x = 50;
+    // textMesh1.position.y = -100 * i;
+    mesh.position.z = 0;
+
+    mesh.rotation.x = 0;
+    mesh.rotation.y = Math.PI * 2;
+
+    return mesh;
 
   }
 
   // 
   this.bulletMesh = initBullet(options);
-  this.textMesh = initText();
+  this.textMesh = initText(item.text, options);
 
   this.id = item.id;
   this.text = item.text;
@@ -39,6 +84,7 @@ APP.item = function (item, options) {
   THREE.Object3D.call(this);
 
   this.add(this.bulletMesh);
+  this.add(this.textMesh);
 };
 
 APP.item.prototype = Object.create(THREE.Object3D.prototype);

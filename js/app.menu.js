@@ -92,7 +92,11 @@ APP.menu.prototype = {
 
     for (var i=0; i<items.length; i++) {
       // Add an item.
-      var object = new APP.item(items[i], options);
+      var object = new APP.item({
+        id: i,
+        text: items[i],
+        value: items[i]
+      }, options);
 
       object.position.x = options.cubeLength + options.itemMargin;
       object.position.y = -(options.itemMargin + options.cubeLength)-(options.itemMargin * 2 + options.cubeLength) * i ;
@@ -111,7 +115,7 @@ APP.menu.prototype = {
       this.items.push( object );
 
       // Add text.
-      this.createText(items, options, i);
+      // this.createText(items, options, i);
 
       // Add light.
       var pointLight = new THREE.PointLight(0x999999);
