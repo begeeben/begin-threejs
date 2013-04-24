@@ -15,7 +15,7 @@ THREE.menu = function(container, items, options) {
   this.scene = null;
   this.camera = null;
 
-  this.objects = [];
+  // this.objects = [];
   this.items = [];
 
   this.clock = null;
@@ -113,7 +113,7 @@ THREE.menu.prototype = {
 
       this.scene.add( object );
 
-      this.objects.push( object );
+      // this.objects.push( object );
       this.items.push( object );
 
       // Add light.
@@ -131,7 +131,7 @@ THREE.menu.prototype = {
     var container = this.container;
     var scene = this.scene;
     var camera = this.camera;
-    var objects = this.objects;
+    var items = this.items;
     var projector = this.projector;
     var mouse = this.mouse;
 
@@ -148,7 +148,7 @@ THREE.menu.prototype = {
 
     var raycaster = projector.pickingRay( vector.clone(), camera );
 
-    var intersects = raycaster.intersectObjects( scene.children );
+    var intersects = raycaster.intersectObjects( items, true );
 
     // if ( SELECTED ) {
     //   var intersects = raycaster.intersectObject( plane );
@@ -215,7 +215,7 @@ THREE.menu.prototype = {
     var container = this.container;
     var scene = this.scene;
     var camera = this.camera;
-    var objects = this.objects;
+    var items = this.items;
     var projector = this.projector;
     var mouse = this.mouse;
 
@@ -228,9 +228,11 @@ THREE.menu.prototype = {
 
     var raycaster = projector.pickingRay( vector.clone(), camera );
 
-    var intersects = raycaster.intersectObjects( scene.children );
+    var intersects = raycaster.intersectObjects( items, true );
 
     if ( intersects.length > 0 ) {
+      alert(intersects[0].object.value);
+      console.log(intersects[0].object.parent.text);
       this.onPress();
     } 
 
@@ -240,17 +242,17 @@ THREE.menu.prototype = {
 
     event.preventDefault();
 
-    controls.enabled = true;
+    // controls.enabled = true;
 
-    if ( INTERSECTED ) {
+    // if ( INTERSECTED ) {
 
-      plane.position.copy( INTERSECTED.position );
+    //   plane.position.copy( INTERSECTED.position );
 
-      SELECTED = null;
+    //   SELECTED = null;
 
-    }
+    // }
 
-    container.style.cursor = 'auto';
+    // container.style.cursor = 'auto';
 
   },
 
@@ -267,7 +269,7 @@ THREE.menu.prototype = {
    */
   update: function(delta) {
     // Update item animations.
-    for (var i=0; i<this.objects.length; i++) {
+    for (var i=0; i<this.items.length; i++) {
       this.items[i].update(delta);
     }
   },

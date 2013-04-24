@@ -2,6 +2,9 @@
  * @author: Yi-Fan Liao / http://begeeben.wordpress.com
  */
 THREE.item = function (item, options) {
+
+  THREE.Object3D.call(this);
+
   options = options || {
     bulletColor: Math.random() * 0xffffff,
     textColor: Math.random() * 0xffffff,
@@ -77,17 +80,22 @@ THREE.item = function (item, options) {
   }
 
   // 
-  this.bulletMesh = initBullet(options);
-  this.textMesh = initText(item.text, options);
-
-  this.id = item.id;
+  this.itemId = item.id;
   this.text = item.text;
   this.value = item.value;
 
+  // Raycaster only intersects with THREE.Particle, THREE.LOD and THREE.Mesh.
+  // So here we store item id and value in the meshes.
+  this.bulletMesh = initBullet(options);
+  this.bulletMesh.itemId = this.itemId;
+  this.bulletMesh.value = this.value;
+
+  this.textMesh = initText(item.text, options);
+  this.textMesh.itemId = this.itemId;
+  this.textMesh.value = this.value;
+
   this.isHover = false;
   this.rotationSpeed = 0.1;
-
-  THREE.Object3D.call(this);
 
   this.add(this.bulletMesh);
   this.add(this.textMesh);

@@ -6,6 +6,6 @@
   var menu = new THREE.menu(container, items);
 
   menu.onPress = function() {
-    alert('Item pressed!');
+    // alert('Item pressed!');
   };
 }());
