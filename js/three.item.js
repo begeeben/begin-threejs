@@ -109,16 +109,30 @@ THREE.item.prototype.update = function(delta) {
 
   if (this.isHover) {
     // Tilt text.
+    if (this.textMesh.rotation.x >= 0 ) {
+      this.textMesh.rotation.x -= 1 * delta;
+    }
+
+    speed *= 10;
+  }
+  else {
+    if (this.textMesh.rotation.x <= 0.4) {
+      this.textMesh.rotation.x += 1 * delta;
+    }
   }
 
   this.bulletMesh.rotation.x += speed * delta;
   this.bulletMesh.rotation.y += speed * delta;
   this.bulletMesh.rotation.z += speed * delta;
 
-  this.isHover = false;
+  // this.isHover = false;
 };
 
 THREE.item.prototype.hover = function() {
   this.isHover = true;
-  this.rotationSpeed *= 10;
+  // this.rotationSpeed *= 10;
+};
+
+THREE.item.prototype.leave = function() {
+  this.isHover = false;
 };

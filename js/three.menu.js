@@ -24,6 +24,9 @@ THREE.menu = function(container, items, options) {
   this.projector = null;
   this.mouse = null;
 
+  // Current on hover item.
+  this.intersected = null;
+
   this.init(container, items, this.options);
   this.animate();
 };
@@ -159,59 +162,25 @@ THREE.menu.prototype = {
     // var intersects = raycaster.intersectObjects( objects );
 
     if ( intersects.length > 0 ) {
-
-      // if ( INTERSECTED != intersects[ 0 ].object ) {
-
-      //   if ( INTERSECTED ) INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
-
-      //   INTERSECTED = intersects[ 0 ].object;
-      //   INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
-
-      //   plane.position.copy( INTERSECTED.position );
-      //   plane.lookAt( camera.position );
-
-      // }
-
       container.style.cursor = 'pointer';
-
+      if (!!this.intersected && intersects[0].object.parent.itemId!==this.intersected.itemId) {
+        this.intersected.leave();
+      }
+      // On hover menu item.
+      intersects[0].object.parent.hover();
+      this.intersected = intersects[0].object.parent;
     } 
     else {
-
-      // if ( INTERSECTED ) INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
-
-      // INTERSECTED = null;
-
       container.style.cursor = 'auto';
-
+      if (!!this.intersected) {
+        this.intersected.leave();
+        this.intersected = null;
+      }
     }
 
   },
 
   onDocumentMouseDown: function( event ) {
-
-    // event.preventDefault();
-
-    // var vector = new THREE.Vector3( mouse.x, mouse.y, 0.5 );
-    // projector.unprojectVector( vector, camera );
-
-    // var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
-
-    // var intersects = raycaster.intersectObjects( objects );
-
-    // if ( intersects.length > 0 ) {
-
-    //   controls.enabled = false;
-
-    //   SELECTED = intersects[ 0 ].object;
-
-    //   var intersects = raycaster.intersectObject( plane );
-    //   offset.copy( intersects[ 0 ].point ).sub( plane.position );
-
-    //   container.style.cursor = 'move';
-
-    // }
-
-
     var container = this.container;
     var scene = this.scene;
     var camera = this.camera;
@@ -231,7 +200,7 @@ THREE.menu.prototype = {
     var intersects = raycaster.intersectObjects( items, true );
 
     if ( intersects.length > 0 ) {
-      alert(intersects[0].object.value);
+      // alert(intersects[0].object.value);
       console.log(intersects[0].object.parent.text);
       this.onPress();
     } 
