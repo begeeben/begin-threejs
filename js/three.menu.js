@@ -168,10 +168,12 @@ THREE.menu.prototype = {
       if (!!this.intersected && intersects[0].object.parent.itemId!==this.intersected.itemId) {
         this.intersected.leave();
       }
+      else if(!this.intersected) {
+        this.onHover(intersects[0].object.parent);        
+      }
       // On hover menu item.
       intersects[0].object.parent.hover();
       this.intersected = intersects[0].object.parent;
-      this.onHover(this.intersected);
     } 
     else {
       container.style.cursor = 'auto';
