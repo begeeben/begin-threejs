@@ -24,8 +24,10 @@ THREE.menu = function(container, items, options) {
   this.projector = null;
   this.mouse = null;
 
-  // Current on hover item.
+  // Current hovered item.
   this.intersected = null;
+  // Last pressed item.
+  this.lastIntersected = null;
 
   this.init(container, items, this.options);
   this.animate();
@@ -169,6 +171,7 @@ THREE.menu.prototype = {
       // On hover menu item.
       intersects[0].object.parent.hover();
       this.intersected = intersects[0].object.parent;
+      this.onHover(this.intersected);
     } 
     else {
       container.style.cursor = 'auto';
@@ -200,26 +203,40 @@ THREE.menu.prototype = {
     var intersects = raycaster.intersectObjects( items, true );
 
     if ( intersects.length > 0 ) {
-      // alert(intersects[0].object.value);
-      console.log(intersects[0].object.parent.text);
-      this.onPress();
+      this.lastIntersected = intersects[0].object.parent;
+      this.onPress(intersects[0].object.parent);
     } 
 
   },
 
   onDocumentMouseUp: function ( event ) {
+    var container = this.container;
+    var scene = this.scene;
+    var camera = this.camera;
+    var items = this.items;
+    var projector = this.projector;
+    var mouse = this.mouse;
 
     event.preventDefault();
 
-    // controls.enabled = true;
+    mouse.x = ( event.clientX / container.clientWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / container.clientHeight ) * 2 + 1;
 
-    // if ( INTERSECTED ) {
+    var vector = new THREE.Vector3( mouse.x, mouse.y, 0.5 );
 
-    //   plane.position.copy( INTERSECTED.position );
+    var raycaster = projector.pickingRay( vector.clone(), camera );
 
-    //   SELECTED = null;
+    var intersects = raycaster.intersectObjects( items, true );
 
-    // }
+    if ( intersects.length > 0 ) {
+      if (!!this.lastIntersected && this.lastIntersected.itemId === intersects[0].object.parent.itemId) {
+        this.onClick(this.lastIntersected);
+      }
+
+      this.onRelease(intersects[0].object.parent);
+    } 
+
+    this.lastIntersected = null;
 
     // container.style.cursor = 'auto';
 
@@ -259,9 +276,13 @@ THREE.menu.prototype = {
   },
 
   // Callbacks for mouse events.
+  // When a menu item is hovered.
   onHover: function() {},
+  // When a menu item is pressed and released.
   onClick: function() {},
+  // When a menu item is pressed.
   onPress: function() {},
+  // When a menu item is released.
   onRelease: function() {}
 
 };
