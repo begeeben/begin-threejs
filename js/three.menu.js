@@ -7,7 +7,17 @@ THREE.menu = function(container, items, options) {
     cubeLength: 50,
     itemMargin: 20,
     textSize: 50,
-    textHeight: 20
+    textHeight: 20,
+
+    bullet: {
+      shape: 'cube',
+      color: '#829',
+      size: container.clientHeight / items.length
+    },
+
+    font: {
+      
+    }
   };
 
   this.container = container;
