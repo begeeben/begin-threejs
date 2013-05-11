@@ -13,12 +13,13 @@
 			camera.position.set(0, 0, 5);
 
 			var renderer = new THREE.WebGLRenderer();
+			renderer.setClearColor( 0x000000, 1 );
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			// renderer.domElement: A canvas element to draw WebGL output
 			document.body.appendChild(renderer.domElement);
 
 			// Sphere 1
-			var geometry = new THREE.SphereGeometry(100, 100, 50);
+			var geometry = new THREE.SphereGeometry(100, 32, 16);
 			var material = new THREE.MeshPhongMaterial({color: 0x996600});
 
 			var mesh1 = new THREE.Mesh(geometry, material);
