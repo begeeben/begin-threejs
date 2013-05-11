@@ -21,10 +21,16 @@
 			// Load image and create texture.
 			var imgUrl = 'images/jumper.jpg';
 			var map = THREE.ImageUtils.loadTexture(imgUrl);
+			// For shiny surfaces.
 			var material = new THREE.MeshPhongMaterial({ map: map });
 
 			var mesh = new THREE.Mesh(geometry, material);
 			scene.add(mesh);
+
+			// Directional light affects objects using MeshLambertMaterial or MeshPhongMaterial.
+			var light = new THREE.DirectionalLight( 0xffffff, 1 );
+			light.position.set( 0, 0, 1 );
+			scene.add(light);
 
 			function render() {
 				requestAnimationFrame(render);
