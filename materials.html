@@ -18,8 +18,8 @@
 			document.body.appendChild(renderer.domElement);
 
 			// Sphere 1
-			var geometry = new THREE.SphereGeometry(100, 32, 16);
-			var material = new THREE.MeshPhongMaterial({color: 0x996600});
+			var geometry = new THREE.SphereGeometry(100, 100, 50);
+			var material = new THREE.MeshBasicMaterial({color: 0x996600});
 
 			var mesh1 = new THREE.Mesh(geometry, material);
 			mesh1.position.set(-200, 0, 0);
@@ -27,11 +27,19 @@
 
 			// Sphere 2
 			var geometry = new THREE.SphereGeometry(100, 100, 50);
-			var material = new THREE.MeshPhongMaterial({color: 0x996600});
+			var material = new THREE.MeshLambertMaterial({color: 0x996600});
 
 			var mesh2 = new THREE.Mesh(geometry, material);
-			mesh2.position.set(200, 0, 0);
+			mesh2.position.set(0, 0, 0);
 			scene.add(mesh2);
+
+			// Sphere 3
+			var geometry = new THREE.SphereGeometry(100, 100, 50);
+			var material = new THREE.MeshPhongMaterial({color: 0x996600});
+
+			var mesh3 = new THREE.Mesh(geometry, material);
+			mesh3.position.set(-200, 0, 0);
+			scene.add(mesh3);
 
 			var ambientLight = new THREE.AmbientLight( 0x888888 );
 			scene.add(ambientLight);

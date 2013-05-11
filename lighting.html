@@ -19,7 +19,7 @@
 			document.body.appendChild(renderer.domElement);
 
 			// Sphere 1
-			var geometry = new THREE.SphereGeometry(100, 32, 16);
+			var geometry = new THREE.SphereGeometry(100, 100, 50);
 			var material = new THREE.MeshPhongMaterial({color: 0x996600});
 
 			var mesh1 = new THREE.Mesh(geometry, material);
@@ -27,8 +27,7 @@
 			scene.add(mesh1);
 
 			// Sphere 2
-			var geometry = new THREE.SphereGeometry(100, 100, 50);
-			var material = new THREE.MeshPhongMaterial({color: 0x996600});
+			material = new THREE.MeshPhongMaterial({color: 0x996600});
 
 			var mesh2 = new THREE.Mesh(geometry, material);
 			mesh2.position.set(200, 0, 0);
