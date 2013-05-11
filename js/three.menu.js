@@ -54,7 +54,7 @@ THREE.menu.prototype = {
         antialias   : true, // to get smoother output
         preserveDrawingBuffer : true  // to allow screenshot
       });
-      this.renderer.setClearColorHex( 0x000000, 1 );
+      this.renderer.setClearColor( 0x000000, 1 );
     // uncomment if webgl is required
     //}else{
     //  Detector.addGetWebGLMessage();
