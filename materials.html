@@ -6,58 +6,73 @@
 	<body>
 		<script src="vendor/three.js"></script>
 		<script>
-			var scene = new THREE.Scene();
-			// new THREE.PerspectiveCamera(fov, aspect, near, far)
-			var camera = new THREE.OrthographicCamera(-window.innerWidth/2, window.innerWidth/2, -window.innerHeight/2, window.innerHeight/2, - 200, 200);
-			camera.position.set(0, 0, 5);
-
 			var renderer = new THREE.WebGLRenderer();
 			renderer.setClearColor( 0x000000, 1 );
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			// renderer.domElement: A canvas element to draw WebGL output
 			document.body.appendChild(renderer.domElement);
 
+			var scene = new THREE.Scene();
+			var camera = new THREE.OrthographicCamera(-window.innerWidth/2, window.innerWidth/2, -window.innerHeight/2, window.innerHeight/2, - 500, 500);
+			camera.position.set(0, 0, 5);
+
 			// Sphere 1
-			var geometry = new THREE.SphereGeometry(100, 100, 50);
+			var geometry = new THREE.SphereGeometry(90, 32, 16);
 			var material = new THREE.MeshBasicMaterial({color: 0x996600});
 
 			var mesh1 = new THREE.Mesh(geometry, material);
-			mesh1.position.set(-200, 0, 0);
+			mesh1.position.set(0, -200, 0);
 			scene.add(mesh1);
 
 			// Sphere 2
-			var geometry = new THREE.SphereGeometry(100, 100, 50);
-			var material = new THREE.MeshLambertMaterial({color: 0x996600});
+			var geometry2 = new THREE.SphereGeometry(90, 32, 16);
+			var material2 = new THREE.MeshLambertMaterial({
+				color: 0x996600,
+				ambient: 0x996600
+			});
 
-			var mesh2 = new THREE.Mesh(geometry, material);
+			var mesh2 = new THREE.Mesh(geometry2, material2);
 			mesh2.position.set(0, 0, 0);
 			scene.add(mesh2);
 
 			// Sphere 3
-			var geometry = new THREE.SphereGeometry(100, 100, 50);
-			var material = new THREE.MeshPhongMaterial({color: 0x996600});
+			var geometry3 = new THREE.SphereGeometry(90, 32, 16);
+			var material3 = new THREE.MeshPhongMaterial({
+				color: 0x996600,
+				ambient: 0x996600,
+				specular: 0xffffff,
+				shininess: 1000
+			});
 
-			var mesh3 = new THREE.Mesh(geometry, material);
-			mesh3.position.set(-200, 0, 0);
+			var mesh3 = new THREE.Mesh(geometry3, material3);
+			mesh3.position.set(0, 200, 0);
 			scene.add(mesh3);
 
-			var ambientLight = new THREE.AmbientLight( 0x888888 );
+			var ambientLight = new THREE.AmbientLight( 0xffffff );
 			scene.add(ambientLight);
 
-			var directionalLight = new THREE.DirectionalLight( 0x888888, 1 );
-			directionalLight.position.set( 150, 0, -150 );
-			scene.add(directionalLight);
+			var lights = new THREE.Object3D();
 
-			var pointLight = new THREE.PointLight( 0xffffff, 1 );
-			scene.add(pointLight);
+			// var directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
+			// directionalLight.position.set( 1, 0, 0 );
+			// lights.add(directionalLight);
 
-			var spotLight = new THREE.SpotLight( 0xffffff, 1 );
-			spotLight.position.set( 0, 0, -200 );
-			spotLight.target.position.set( -200, 0, 0 );
-			scene.add(spotLight);
+			// var pointLight = new THREE.PointLight( 0xffffff, 1, 1000 );
+			// pointLight.position.set( 200, 0, 0 );
+			// lights.add(pointLight);
+
+			for (var i=-1; i<2; i++) {
+				var spotLight = new THREE.SpotLight( 0xffffff, 1 );
+				spotLight.position.set( 300, 200*i, 0 );
+				spotLight.target.position.set( 0, 200*i, 0 );
+				lights.add(spotLight);				
+			}
+
+			scene.add(lights);
 
 			function render() {
 				requestAnimationFrame(render);
+				lights.rotation.y += 0.01;
 				renderer.render(scene, camera);
 			}
 
