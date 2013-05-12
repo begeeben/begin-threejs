@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Model</title>
+  </head>
+  <body>
+    <script src="vendor/three.js"></script>
+    <script>
+      var renderer = new THREE.WebGLRenderer();
+      renderer.setClearColor( 0x000000, 1 );
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      // renderer.domElement: A canvas element to draw WebGL output
+      document.body.appendChild(renderer.domElement);
+
+      var scene = new THREE.Scene();
+      // new THREE.PerspectiveCamera(fov, aspect, near, far)
+      var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 0, 50);
+
+      // Load ufo image.
+      var ufoMap = THREE.ImageUtils.loadTexture('models/ufo/textures/ufo.png');
+      var ufoMaterial = new THREE.MeshPhongMaterial({map:ufoMap});
+      // Load ufo 3D JSON model.
+      var ufo;
+      var loader = new THREE.JSONLoader();
+      loader.load('models/ufo/ufo.js', function(geometry) {
+        ufo = new THREE.Mesh(geometry, ufoMaterial);
+        scene.add(ufo);
+      });
+
+      // Directional light affects objects using MeshLambertMaterial or MeshPhongMaterial.
+      var light = new THREE.DirectionalLight( 0xffffff, 1 );
+      light.position.set( 0, 0, 1 );
+      scene.add(light);
+
+      var clock = new THREE.Clock();
+
+      function render() {
+        requestAnimationFrame(render);
+
+        if (ufo) {
+          ufo.rotation.y += 0.01;
+          ufo.rotation.x = Math.sin(clock.getElapsedTime())/2;
+        }
+        renderer.render(scene, camera);
+      }
+
+      render();
+    </script>
+  </body>
+</html>
