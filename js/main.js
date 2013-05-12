@@ -1,6 +1,6 @@
 (function() {
   var container = document.getElementById('menu-container');
-  // var items = ['one', 'two', 'three'];
+
   var items = [{
     text: 'Your 1st three.js page',
     value: 'first-blood.html' 
@@ -18,16 +18,15 @@
     value: 'model.html' 
   },{
     text: 'Animate a 3D model',
-    value: 'animate-model.html' 
+    value: 'animated-model.html' 
   },{
     text: 'Make a game',
     value: 'animate-model.html' 
   }];
-  // var items = ['one', 'two', 'three', 'four', 'five'];
+
   var menu = new THREE.menu(container, items);
 
   menu.onPress = function(item) {
-    // alert('Item pressed!');
     console.log('Pressed ' + item.text);
     window.location.assign(item.value);
   };
