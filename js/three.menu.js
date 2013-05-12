@@ -111,8 +111,8 @@ THREE.menu.prototype = {
       // Add an item.
       var object = new THREE.item({
         id: i,
-        text: items[i],
-        value: items[i]
+        text: items[i].text,
+        value: items[i].value
       });
 
       object.position.x = options.cubeLength + options.itemMargin;
