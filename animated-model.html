@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Animated Model</title>
+  </head>
+  <body>
+    <script src="vendor/three.js"></script>
+    <script>
+      var renderer = new THREE.WebGLRenderer();
+      renderer.setClearColor( 0x000000, 1 );
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      // renderer.domElement: A canvas element to draw WebGL output
+      document.body.appendChild(renderer.domElement);
+
+      var scene = new THREE.Scene();
+      // new THREE.PerspectiveCamera(fov, aspect, near, far)
+      var camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 1000 );
+      camera.position.set( 0, 10, 150 );
+
+      var clock = new THREE.Clock();
+
+      // Load 3D model.
+      var loadCounter = 2;
+
+      function checkLoadingComplete() {
+        loadCounter -= 1;
+        if(loadCounter === 0) scene.add(boyMesh);
+      };
+      // Textures.
+      var mapping = new THREE.UVMapping();
+      var boyMap = THREE.ImageUtils.loadTexture('models/boy/textures/boy.png', mapping, checkLoadingComplete());
+      // var helmetMap = THREE.ImageUtils.loadTexture('models/boy/textures/helmet.png', mapping);
+
+      // Body.
+      var boyMesh;
+      var loader = new THREE.JSONLoader();
+      // Load the boy model.
+      loader.load('models/boy/boy.js', function(geometry) {
+
+        // geometry.computeBoundingBox();
+        geometry.computeMorphNormals();
+
+        var materialBoy = new THREE.MeshPhongMaterial({
+          color: 0xffffff,
+          specular: 0x111111,
+          shininess: 50,
+          wireframe: false,
+          shading: THREE.SmoothShading,
+          map: boyMap,
+          morphTargets: true,
+          morphNormals: true,
+          // perPixel: true,
+          metal: true
+        });
+        materialBoy.wrapAround = true;
+
+        boyMesh = new THREE.MorphAnimMesh(geometry, materialBoy);
+
+        boyMesh.castShadow = true;
+        boyMesh.receiveShadow = true;
+
+        boyMesh.materialTexture = materialBoy;
+
+        // boyMesh.autoCreateAnimations(30);
+        boyMesh.parseAnimations();
+
+        boyMesh.playAnimation( geometry.firstAnimation, 30 );
+        boyMesh.baseDuration = boyMesh.duration;
+
+        checkLoadingComplete();
+      });
+
+
+      // Directional light affects objects using MeshLambertMaterial or MeshPhongMaterial.
+      var light = new THREE.DirectionalLight( 0xffffff, 1 );
+      light.position.set( 0, 0, 1 );
+      scene.add(light);
+
+      function render() {
+        requestAnimationFrame(render);
+
+        var delta = clock.getDelta();
+
+        if ( boyMesh ) {
+
+          boyMesh.rotation.y += 0.01;
+          // boyMesh.update( delta );
+          boyMesh.updateAnimation(1000*delta);
+          // boyMesh.setAnimationWeight( boyMesh.activeAnimation, 1 );
+          // boyMesh.setAnimationWeight( this.oldAnimation,  1 - mix );
+
+        }
+        renderer.render(scene, camera);
+      }
+
+      render();
+    </script>
+  </body>
+</html>
