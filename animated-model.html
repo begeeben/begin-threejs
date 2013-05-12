@@ -29,14 +29,12 @@
       // Textures.
       var mapping = new THREE.UVMapping();
       var boyMap = THREE.ImageUtils.loadTexture('models/boy/textures/boy.png', mapping, checkLoadingComplete());
-      // var helmetMap = THREE.ImageUtils.loadTexture('models/boy/textures/helmet.png', mapping);
 
       // Body.
       var boyMesh;
       var loader = new THREE.JSONLoader();
-      // Load the boy model.
-      loader.load('models/boy/boy.js', function(geometry) {
 
+      loader.load('models/boy/boy.js', function(geometry) {
         // geometry.computeBoundingBox();
         geometry.computeMorphNormals();
 
@@ -70,8 +68,6 @@
         checkLoadingComplete();
       });
 
-
-      // Directional light affects objects using MeshLambertMaterial or MeshPhongMaterial.
       var light = new THREE.DirectionalLight( 0xffffff, 1 );
       light.position.set( 0, 0, 1 );
       scene.add(light);
@@ -82,14 +78,11 @@
         var delta = clock.getDelta();
 
         if ( boyMesh ) {
-
           boyMesh.rotation.y += 0.01;
-          // boyMesh.update( delta );
+          // THREE.MorphAnimMesh.updateAnimation
           boyMesh.updateAnimation(1000*delta);
-          // boyMesh.setAnimationWeight( boyMesh.activeAnimation, 1 );
-          // boyMesh.setAnimationWeight( this.oldAnimation,  1 - mix );
-
         }
+
         renderer.render(scene, camera);
       }
 
