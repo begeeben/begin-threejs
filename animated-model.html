@@ -27,6 +27,7 @@
         if(loadCounter === 0) scene.add(boyMesh);
       };
       // Textures.
+      // How the image is applied to the object.
       var mapping = new THREE.UVMapping();
       var boyMap = THREE.ImageUtils.loadTexture('models/boy/textures/boy.png', mapping, checkLoadingComplete());
 
@@ -35,35 +36,25 @@
       var loader = new THREE.JSONLoader();
 
       loader.load('models/boy/boy.js', function(geometry) {
-        // geometry.computeBoundingBox();
         geometry.computeMorphNormals();
 
         var materialBoy = new THREE.MeshPhongMaterial({
           color: 0xffffff,
           specular: 0x111111,
           shininess: 50,
-          wireframe: false,
-          shading: THREE.SmoothShading,
           map: boyMap,
           morphTargets: true,
           morphNormals: true,
-          // perPixel: true,
-          metal: true
+          wrapAround: true
         });
-        materialBoy.wrapAround = true;
 
         boyMesh = new THREE.MorphAnimMesh(geometry, materialBoy);
 
         boyMesh.castShadow = true;
         boyMesh.receiveShadow = true;
-
-        boyMesh.materialTexture = materialBoy;
-
-        // boyMesh.autoCreateAnimations(30);
+        // Parse animations in the model file.
         boyMesh.parseAnimations();
-
         boyMesh.playAnimation( geometry.firstAnimation, 30 );
-        boyMesh.baseDuration = boyMesh.duration;
 
         checkLoadingComplete();
       });
