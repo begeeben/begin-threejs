@@ -251,6 +251,18 @@
       }
 
     }
+
+
+
+    /* Three.js context container
+    -------------------------------------------------- */
+    #three-container {
+      position: fixed !important; 
+      top: 15%;
+      right: 10%;
+      width: 600px;
+      height: 700px !important;
+    }
     </style>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -423,7 +435,7 @@
 
     </div><!-- /.container -->
 
-
+    <div id="three-container"></div>
 
     <!-- Le javascript
     ================================================== -->
@@ -453,5 +465,7 @@
       }(window.jQuery);
     </script>
     <script src="vendor/holder.js"></script>
+    <script src="vendor/three.js"></script>
+    <script src="js/carousel.js"></script>
   </body>
 </html>
