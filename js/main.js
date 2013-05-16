@@ -20,8 +20,11 @@
     text: 'Animate a 3D model',
     value: 'animated-model.html' 
   },{
+    text: 'Mix 3D content in html',
+    value: 'carousel.html' 
+  },{
     text: 'Make a game',
-    value: 'animate-model.html' 
+    value: 'http://begeeben.github.io/outer-space/slot.html' 
   }];
 
   var menu = new THREE.menu(container, items);
